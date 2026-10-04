@@ -18,17 +18,34 @@ const ListedPlan = () => {
     useContext(Workcontext) as Iworkcontext;
 
   const [activeTab, setActiveTab] = useState<"plan" | "saved">("plan");
+  const [sortBy, setSortBy] = useState<
+    "duration" | "calories" | "rating"
+  >("duration");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [completed, setCompleted] = useState<number[]>([]);
 
   const currentWorkouts = activeTab === "plan" ? myplan : mysaved;
 
   const sortedWorkouts = [...currentWorkouts].sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.duration - b.duration;
+    let valueA = 0;
+    let valueB = 0;
+
+    if (sortBy === "duration") {
+      valueA = a.duration;
+      valueB = b.duration;
+    } else if (sortBy === "calories") {
+      valueA = a.caloriesBurned;
+      valueB = b.caloriesBurned;
+    } else if (sortBy === "rating") {
+      valueA = a.rating;
+      valueB = b.rating;
     }
 
-    return b.duration - a.duration;
+    if (sortOrder === "asc") {
+      return valueA - valueB;
+    }
+
+    return valueB - valueA;
   });
 
   const totalExercises = currentWorkouts.length;
@@ -74,58 +91,58 @@ const ListedPlan = () => {
       <div className="mx-auto max-w-[1440px]">
         {/* Header */}
         <div>
-          <h1 className="text-2xl font-extrabold uppercase tracking-tight">
+          <h1 className="text-3xl font-extrabold uppercase tracking-tight">
             MY PLAN
           </h1>
 
-          <p className="mt-1 text-xs text-[#6c727f]">
+          <p className="mt-1 text-sm text-[#6c727f]">
             Cap of five lifts for today. Finish them, then load more.
           </p>
         </div>
 
         {/* Stats */}
-        <div className="mt-5 grid grid-cols-3 overflow-hidden rounded-xl border border-[#1d2029] bg-[#12141a]">
+        <div className="mt-6 grid grid-cols-3 overflow-hidden rounded-xl border border-[#1d2029] bg-[#12141a]">
           {/* Exercises */}
-          <div className="border-r border-[#1d2029] px-4 py-5">
-            <p className="text-[10px] font-medium text-[#6c727f]">
+          <div className="border-r border-[#1d2029] px-6 py-6">
+            <p className="text-xs font-medium text-[#6c727f]">
               Exercises
             </p>
 
-            <p className="mt-1 text-2xl font-extrabold text-[#ccff00]">
+            <p className="mt-1 text-3xl font-extrabold text-[#ccff00]">
               {totalExercises}
             </p>
           </div>
 
           {/* Minutes */}
-          <div className="border-r border-[#1d2029] px-4 py-5">
-            <p className="text-[10px] font-medium text-[#6c727f]">
+          <div className="border-r border-[#1d2029] px-6 py-6">
+            <p className="text-xs font-medium text-[#6c727f]">
               Minutes
             </p>
 
-            <p className="mt-1 text-2xl font-extrabold text-white">
+            <p className="mt-1 text-3xl font-extrabold text-white">
               {totalMinutes}
             </p>
           </div>
 
           {/* Calories */}
-          <div className="px-4 py-5">
-            <p className="text-[10px] font-medium text-[#6c727f]">
+          <div className="px-6 py-6">
+            <p className="text-xs font-medium text-[#6c727f]">
               Calories
             </p>
 
-            <p className="mt-1 text-2xl font-extrabold text-white">
+            <p className="mt-1 text-3xl font-extrabold text-white">
               {totalCalories}
             </p>
           </div>
         </div>
 
         {/* Tabs + Sort */}
-        <div className="mt-5 flex items-center justify-between">
+        <div className="mt-6 flex items-center justify-between">
           {/* Tabs */}
-          <div className="flex rounded-lg border border-[#1d2029] bg-[#12141a] p-1">
+          <div className="flex rounded-lg border border-[#1d2029] bg-[#12141a] p-1.5">
             <button
               onClick={() => setActiveTab("plan")}
-              className={`rounded-md px-4 py-2 text-[10px] font-medium transition ${
+              className={`rounded-md px-5 py-2.5 text-xs font-semibold transition ${
                 activeTab === "plan"
                   ? "bg-[#1c2029] text-white"
                   : "text-[#6c727f]"
@@ -136,7 +153,7 @@ const ListedPlan = () => {
 
             <button
               onClick={() => setActiveTab("saved")}
-              className={`rounded-md px-4 py-2 text-[10px] font-medium transition ${
+              className={`rounded-md px-5 py-2.5 text-xs font-semibold transition ${
                 activeTab === "saved"
                   ? "bg-[#1c2029] text-white"
                   : "text-[#6c727f]"
@@ -147,64 +164,82 @@ const ListedPlan = () => {
           </div>
 
           {/* Sort */}
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] text-[#6c727f]">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium text-[#6c727f]">
               Sort By
             </span>
 
-            <select
-              value={sortOrder}
-              onChange={(event) =>
-                setSortOrder(event.target.value as "asc" | "desc")
-              }
-              className="rounded-lg border border-[#1d2029] bg-[#12141a] px-3 py-2 text-[10px] text-white outline-none"
-            >
-              <option value="asc">Duration ↑</option>
-              <option value="desc">Duration ↓</option>
-            </select>
+            <div className="flex items-center overflow-hidden rounded-lg border border-[#1d2029] bg-[#12141a]">
+              <select
+                value={sortBy}
+                onChange={(event) =>
+                  setSortBy(
+                    event.target.value as
+                      | "duration"
+                      | "calories"
+                      | "rating"
+                  )
+                }
+                className="cursor-pointer bg-[#12141a] px-4 py-2.5 text-xs font-medium text-white outline-none"
+              >
+                <option value="duration">Duration</option>
+                <option value="calories">Calories</option>
+                <option value="rating">Rating</option>
+              </select>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                }
+                className="flex h-10 w-10 items-center justify-center border-l border-[#1d2029] text-sm font-semibold text-[#ccff00] transition hover:bg-[#1a1d26]"
+              >
+                {sortOrder === "asc" ? "↑" : "↓"}
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Workout List */}
         {sortedWorkouts.length > 0 ? (
-          <div className="mt-4 space-y-2">
+          <div className="mt-5 space-y-3">
             {sortedWorkouts.map((workout) => {
               const isCompleted = completed.includes(workout.id);
 
               return (
                 <div
                   key={workout.id}
-                  className="flex items-center justify-between rounded-xl border border-[#1d2029] bg-[#12141a] px-3 py-3"
+                  className="flex flex-col gap-4 rounded-xl border border-[#1d2029] bg-[#12141a] p-4 md:flex-row md:items-center md:justify-between"
                 >
                   {/* Left */}
-                  <div className="flex min-w-0 items-center gap-3">
+                  <div className="flex min-w-0 flex-1 items-center gap-4">
                     {/* Image */}
-                  <div className="h-12 w-24 shrink-0 overflow-hidden rounded-lg bg-[#1a1d26]">
-                     <Image
+                    <div className="h-20 w-32 shrink-0 overflow-hidden rounded-lg bg-[#1a1d26]">
+                      <Image
                         src={workout.image}
                         alt={workout.name}
-                        width={96}
-                        height={48}
+                        height={1500}
+                        width={1220}
                         className="h-full w-full object-cover"
                       />
-                   </div>
+                    </div>
 
                     {/* Info */}
                     <div className="min-w-0">
-                      <h3 className="truncate text-xs font-extrabold uppercase text-white">
+                      <h3 className="truncate text-sm font-extrabold uppercase text-white sm:text-base">
                         {workout.name}
                       </h3>
 
-                      <p className="mt-0.5 text-[10px] text-[#6c727f]">
+                      <p className="mt-1 text-xs text-[#6c727f]">
                         {workout.equipment}
                       </p>
 
                       {/* Stats */}
-                      <div className="mt-1.5 flex items-center gap-3 text-[9px] text-[#8b919d]">
+                      <div className="mt-2 flex items-center gap-4 text-xs text-[#8b919d]">
                         {/* Duration */}
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                           <svg
-                            className="h-3 w-3 stroke-[#ccff00]"
+                            className="h-4 w-4 stroke-[#ccff00]"
                             fill="none"
                             viewBox="0 0 24 24"
                             strokeWidth="2"
@@ -217,9 +252,9 @@ const ListedPlan = () => {
                         </div>
 
                         {/* Calories */}
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                           <svg
-                            className="h-3 w-3 fill-[#ccff00]"
+                            className="h-4 w-4 fill-[#ccff00]"
                             viewBox="0 0 24 24"
                           >
                             <path d="M12 23c-4.97 0-9-3.58-9-8 0-4.19 3.23-7.58 7.07-9.72.48-.27 1.08.06 1.08.61v2.16c0 .41.28.77.68.86 2.37.52 4.17 2.62 4.17 5.14 0 1.38-.56 2.63-1.47 3.53-.32.32-.23.87.21.99.31.08.64.03.9-.14A8.94 8.94 0 0 0 18 11c0-.42.48-.68.83-.44C20.8 11.95 22 14.33 22 17c0 3.31-4.48 6-10 6z" />
@@ -229,9 +264,9 @@ const ListedPlan = () => {
                         </div>
 
                         {/* Rating */}
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1.5">
                           <svg
-                            className="h-3 w-3 stroke-[#ccff00]"
+                            className="h-4 w-4 stroke-[#ccff00]"
                             fill="none"
                             viewBox="0 0 24 24"
                             strokeWidth="2"
@@ -246,32 +281,34 @@ const ListedPlan = () => {
                   </div>
 
                   {/* Right */}
-                  <div className="ml-4 flex shrink-0 items-center gap-2">
-                    <Link
-                      href={`/Workout/${workout.id}`}
-                      className="rounded-full border border-[#303540] px-4 py-2 text-[9px] font-medium text-white transition hover:bg-[#1a1d26]"
-                    >
-                      View Details
-                    </Link>
-
-                    {/* Mark as Done */}
-                    {activeTab === "plan" && (
-                      <button
-                        onClick={() => toggleComplete(workout.id)}
-                        className={`rounded-full px-4 py-2 text-[9px] font-bold transition ${
-                          isCompleted
-                            ? "bg-[#1c2029] text-[#ccff00]"
-                            : "bg-[#ccff00] text-black hover:bg-[#d9ff4a]"
-                        }`}
+                  <div className="flex shrink-0 items-center justify-between gap-3 md:ml-4 md:justify-end">
+                    <div className="flex items-center gap-2.5">
+                      <Link
+                        href={`/Workout/${workout.id}`}
+                        className="rounded-full border border-[#303540] px-4 py-2 text-xs font-medium text-white transition hover:bg-[#1a1d26]"
                       >
-                        {isCompleted ? "✓ Done" : "✓ Mark as Done"}
-                      </button>
-                    )}
+                        View Details
+                      </Link>
+
+                      {/* Mark as Done */}
+                      {activeTab === "plan" && (
+                        <button
+                          onClick={() => toggleComplete(workout.id)}
+                          className={`rounded-full px-4 py-2 text-xs font-bold transition ${
+                            isCompleted
+                              ? "bg-[#1c2029] text-[#ccff00]"
+                              : "bg-[#ccff00] text-black hover:bg-[#d9ff4a]"
+                          }`}
+                        >
+                          {isCompleted ? "✓ Done" : "✓ Mark as Done"}
+                        </button>
+                      )}
+                    </div>
 
                     {/* Remove */}
                     <button
                       onClick={() => removeWorkout(workout.id)}
-                      className="flex h-7 w-7 items-center justify-center rounded-full text-[#6c727f] transition hover:bg-[#1a1d26] hover:text-white"
+                      className="flex h-8 w-8 items-center justify-center rounded-full text-lg text-[#6c727f] transition hover:bg-[#1a1d26] hover:text-white"
                       aria-label={`Remove ${workout.name}`}
                     >
                       ×
@@ -283,18 +320,18 @@ const ListedPlan = () => {
           </div>
         ) : (
           /* Empty State */
-          <div className="mt-4 flex min-h-[190px] flex-col items-center justify-center rounded-xl border border-dashed border-[#252934] bg-[#0d1014] text-center">
-            <h2 className="text-sm font-extrabold uppercase text-white">
+          <div className="mt-6 flex min-h-[220px] flex-col items-center justify-center rounded-xl border border-dashed border-[#252934] bg-[#0d1014] p-6 text-center">
+            <h2 className="text-base font-extrabold uppercase text-white">
               NOTHING HERE YET
             </h2>
 
-            <p className="mt-1 text-[10px] text-[#6c727f]">
+            <p className="mt-1.5 text-xs text-[#6c727f]">
               Browse the library and add a lift to get today moving.
             </p>
 
             <Link
-              href="/Workout"
-              className="mt-4 rounded-full bg-[#ccff00] px-5 py-2.5 text-[10px] font-bold text-black transition hover:bg-[#d9ff4a]"
+              href="/"
+              className="mt-5 rounded-full bg-[#ccff00] px-6 py-3 text-xs font-bold text-black transition hover:bg-[#d9ff4a]"
             >
               Go to workouts
             </Link>
