@@ -2,7 +2,6 @@ import MyplanB from '@/Componets/Button/MyplanB';
 import Mysaved from '@/Componets/Button/Mysaved';
 import { Icards } from '@/types/cardstype';
 import Image from 'next/image';
-import React from 'react';
 
 interface Iworkcards {
   params: Promise<{ id: string }>;
@@ -26,6 +25,13 @@ const page = async ({ params }: Iworkcards) => {
   if (!workout) {
     return <div>Workout not found</div>;
   }
+
+  const MyplanBWithWorkout = MyplanB as unknown as React.ComponentType<{
+    workout: Icards;
+  }>;
+  const MysavedWithWorkout = Mysaved as unknown as React.ComponentType<{
+    workout: Icards;
+  }>;
 
   return (
     <div className="min-h-screen bg-[#0b0d0e] px-6 py-8 md:px-12 md:py-10">

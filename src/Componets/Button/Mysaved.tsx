@@ -1,6 +1,6 @@
 "use client";
 
-import { Workcontext, WorkContextType } from "@/context/Workcontext";
+import { Workcontext } from "@/context/Workcontext";
 import { Icards } from "@/types/cardstype";
 import React, { useContext } from "react";
 import { toast } from "react-toastify";
@@ -10,7 +10,10 @@ interface MysavedProps {
 }
 
 const Mysaved: React.FC<MysavedProps> = ({ workout }) => {
-  const { mysaved, setMysaved }: WorkContextType = useContext(Workcontext);
+  const { mysaved, setMysaved } = useContext(Workcontext) as {
+    mysaved: Icards[];
+    setMysaved: React.Dispatch<React.SetStateAction<Icards[]>>;
+  };
 
   const handleSaveForLater = (): void => {
     // 1. Check if workout is already saved
