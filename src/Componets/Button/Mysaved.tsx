@@ -1,0 +1,41 @@
+"use client";
+
+import { Workcontext } from "@/context/Workcontext";
+import { Icards } from "@/types/cardstype";
+import React, { useContext } from "react";
+import { toast } from "react-toastify";
+
+const Mysaved = ({ workout }: { workout: Icards }) => {
+  const { mysaved, setMysaved } = useContext(Workcontext);
+
+  const handleAddToSaved = () => {
+    setMysaved([...mysaved, workout]);
+
+    toast.success(workout.name + " saved for later!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
+
+  return (
+    <button
+      type="button"
+      className="btn flex h-8 items-center gap-2 rounded-lg border border-[#303541] px-4 text-[11px] font-medium text-white"
+      onClick={handleAddToSaved}
+    >
+      <svg
+        className="h-3.5 w-3.5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth="2"
+      >
+        <path d="M6 4h12v17l-6-4-6 4V4z" />
+      </svg>
+
+      Save for later
+    </button>
+  );
+};
+
+export default Mysaved;

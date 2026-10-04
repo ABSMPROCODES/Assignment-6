@@ -1,6 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 
 const Nav = () => {
+ 
   return (
     <nav className="w-full bg-[#0d0e11] px-8 py-4 border-b border-[#1a1c22]">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between">
@@ -23,27 +25,27 @@ const Nav = () => {
         {/* Center: Navigation Links */}
         <div className="flex items-center gap-2">
           {/* Active Tab */}
-          <a
-            href="#"
+          <Link
+            href="/Listed-plan"
             className="rounded-full bg-[#1b270a] px-5 py-2 text-sm font-semibold text-[#ccff00]"
           >
             Workouts
-          </a>
+          </Link>
 
           {/* Inactive Tab */}
-          <a
-            href="#"
+          <Link
+            href="/Listed-plan"
             className="px-5 py-2 text-sm font-semibold text-[#8b919d] transition-colors hover:text-white"
           >
             My Plan
-          </a>
+          </Link>
         </div>
 
         {/* Right: Counters / Badges */}
         <div className="flex items-center gap-6">
           {/* Plan Counter */}
           <button className="rounded-full bg-[#1b270a] px-5 py-2 text-sm font-semibold text-[#ccff00]">
-            Plan
+            {`Plan : ${workouts.length}`}
           </button>
 
           <button className="px-5 py-2 text-sm font-semibold text-[#8b919d] transition-colors hover:text-white">
