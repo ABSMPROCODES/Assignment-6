@@ -1,35 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FitLog — Workout Library & Gym Companion
 
-## Getting Started
+FitLog is a dark-themed, responsive web application built to help users browse gym exercises, inspect key lifting specs, build a daily workout plan, and keep track of overall volume, time, and calories in real time.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live Demo & Repository
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Live Web App:** [https://assignment-6-6ofn.vercel.app/](https://assignment-6-6ofn.vercel.app/)
+- **GitHub Repository:** [Insert Your GitHub Repository Link Here]
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## What the App Does
 
-## Learn More
+FitLog functions as a digital gym log where you can filter and manage your training sessions seamlessly across mobile, tablet, and desktop screens.
 
-To learn more about Next.js, take a look at the following resources:
+### Key Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Responsive Navbar with Dynamic Counters**
+   - Direct navigation to Home (Workout Library) and My Plan pages.
+   - Live badge indicators showing the exact number of exercises added to **Today's Plan** and **Saved** list.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Hero / Banner Section**
+   - Direct CTA button ("BROWSE WORKOUTS") that smoothly scrolls down to the workout grid on the same page without forcing a route change.
 
-## Deploy on Vercel
+3. **Workout Library with Real-Time Sorting**
+   - Displays exercises in a responsive grid layout.
+   - Sorting dropdown allowing users to re-order lifts dynamically by **Duration**, **Calories**, or **Rating**.
+
+4. **Detailed Exercise Pages**
+   - Two-column detail page layout breaking down targeted categories, step-by-step instructions, and key specs (Equipment, Difficulty, Sets, Reps, Duration, Calories, and Rating).
+   - Action buttons to either add the lift directly into today's log or save it for later, paired with instant toast feedback.
+
+5. **My Plan Dashboard (`/my-plan`)**
+   - Live **Metrics Summary** tracking total exercises, estimated total minutes, and total caloric burn as items are updated.
+   - Tab switching between **Today's Plan** and **Saved** workouts.
+   - Interactive card controls allowing users to mark exercises as completed ("Mark as Done") or remove them entirely from the log.
+   - Dedicated empty states when no lifts are active.
+
+6. **Error Handling & UX Polish**
+   - Custom **404 page** for undefined routes.
+   - Loading state feedback during API data fetching.
+   - Safe client-side route handling to prevent errors when reloading pages on deployment.
+
+---
+
+## Tech Stack
+
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **State Management:** React Context API (`Workcontext`)
+- **UI & Feedback:** React Toastify
+- **Deployment:** Vercel
+
+---
+
+## Running Locally
+
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git)
+   cd YOUR_REPOSITORY
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
