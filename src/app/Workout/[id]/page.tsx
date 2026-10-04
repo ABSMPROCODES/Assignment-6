@@ -54,7 +54,7 @@ const page = async ({ params }: Iworkcards) => {
 
           {/* Muscle Groups */}
           <div className="mt-4 flex gap-2">
-            {workout.muscleGroups?.map((group, i) => (
+            {workout.muscleGroups?.map((group: string, i: number) => (
               <span
                 key={i}
                 className="rounded-full bg-[#ccff00] px-3 py-1 text-[10px] font-extrabold text-black"
@@ -139,7 +139,7 @@ const page = async ({ params }: Iworkcards) => {
             </h2>
 
             <ol className="mt-3 space-y-3 pl-5 text-[11px] leading-4 text-[#a0a5ae]">
-              {workout.instructions?.map((instruction, i) => (
+              {workout.instructions?.map((instruction: string, i: number) => (
                 <li key={i} className="pl-1">
                   {instruction}
                 </li>

@@ -1,59 +1,38 @@
 "use client";
 
-import { Workcontext } from "@/context/Workcontext";
+import React, { createContext, useState, ReactNode } from "react";
 import { Icards } from "@/types/cardstype";
-import React, { useContext } from "react";
-import { toast } from "react-toastify";
 
-const MyplanB = ({ workout }: { workout: Icards }) => {
-  const { myplan, setMyplan } = useContext(Workcontext);
+export interface WorkContextType {
+  myplan: Icards[];
+  mysaved: Icards[];
+  setMyplan: React.Dispatch<React.SetStateAction<Icards[]>>;
+  setMysaved: React.Dispatch<React.SetStateAction<Icards[]>>;
+}
 
-  const handleAddToPlan = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
+export const Workcontext = createContext<WorkContextType>({
+  myplan: [],
+  mysaved: [],
+  setMyplan: () => {},
+  setMysaved: () => {},
+});
 
-   
-
-    // Already in the plan -> warn only
-    if (myplan.some((item) => item.id === workout.id)) {
-     
-      toast.warning(`${workout.name} is already added!`, {
-        toastId: warnId,
-        position: "top-right",
-       
-      });
-      return;
-    }
-
-    // Not in the plan -> add + success only
-    // (toast is called OUTSIDE the state updater so React Strict Mode
-    // can't run it twice)
-    setMyplan((prev) =>
-      prev.some((item) => item.id === workout.id) ? prev : [...prev, workout]
-    );
-
-   
-  };
+export const WorkContextProvider = ({ children }: { children: ReactNode }) => {
+  const [myplan, setMyplan] = useState<Icards[]>([]);
+  const [mysaved, setMysaved] = useState<Icards[]>([]);
 
   return (
-    <button
-      type="button"
-      className="btn flex h-10 items-center gap-2 rounded-lg bg-[#ccff00] px-5 text-[12px] font-bold text-black"
-      onClick={handleAddToPlan}
+    <Workcontext.Provider
+      value={{
+        myplan,
+        mysaved,
+        setMyplan,
+        setMysaved,
+      }}
     >
-      <svg
-        className="h-4 w-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        strokeWidth="2"
-      >
-        <rect x="3" y="4" width="18" height="17" rx="2" />
-        <path d="M16 2v4M8 2v4M3 10h18" />
-        <path d="M10 16h4" />
-      </svg>
-      Add to today&apos;s plan
-    </button>
+      {children}
+    </Workcontext.Provider>
   );
 };
 
-export default MyplanB;
+export default WorkContextProvider;

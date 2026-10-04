@@ -24,7 +24,7 @@ const Workout = async () => {
       <div className="mx-auto grid max-w-[1440px] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
      
         {Workdata.map((Workout: Icards, ind: number) => {
-          return <Workoutcard key={ind} Workout={Workout} ind={ind} />;
+          return <Workoutcard key={ind} Workout={Workout} />;
         })}
 
       </div>
